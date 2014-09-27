@@ -42,7 +42,7 @@ override_dh_auto_clean:
 	make -C contrib/systemd clean
 	dh_auto_clean
 	dh_auto_clean -Dcontrib/halog
-	-rm $(CURDIR)/doc/configuration.txt
+	-rm $(CURDIR)/doc/configuration.html
 
 override_dh_auto_install:
 	make $(MAKEARGS) install
