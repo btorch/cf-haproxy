@@ -1,4 +1,4 @@
-haproxy (1.5.4-2) precise; urgency=high
+haproxy (1.5.4-2rax) precise; urgency=high
 
   * Rebuild for Precise.
 
