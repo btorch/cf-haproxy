@@ -1,0 +1,18 @@
+Author: Apollon Oikonomopoulos <apoikos@debian.org>
+Description: systemd: also check the configuration on start
+ Checking the config in an ExecStartPre statement will avoid triggering the
+ restart action due to the daemon failing, thus avoiding marking the service as
+ failed and giving an immediate failure notification to the user.
+
+Last-Update: 2014-06-20
+Forwarded: no
+--- a/contrib/systemd/haproxy.service.in
++++ b/contrib/systemd/haproxy.service.in
+@@ -8,6 +8,7 @@
+ [Service]
+ Environment=CONFIG=/etc/haproxy/haproxy.cfg
+ EnvironmentFile=-/etc/default/haproxy
++ExecStartPre=@SBINDIR@/haproxy -c -f ${CONFIG}
+ ExecStart=@SBINDIR@/haproxy-systemd-wrapper -f ${CONFIG} -p /run/haproxy.pid $EXTRAOPTS
+ ExecReload=@SBINDIR@/haproxy -c -f ${CONFIG}
+ ExecReload=/bin/kill -USR2 $MAINPID

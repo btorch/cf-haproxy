@@ -1,0 +1,18 @@
+Author: Apollon Oikonomopoulos
+Description: Check the configuration before reloading HAProxy
+ While HAProxy will survive a reload with an invalid configuration, explicitly
+ checking the config file for validity will make "systemctl reload" return an
+ error and let the user know something went wrong.
+
+Forwarded: no
+Last-Update: 2014-04-27
+--- a/contrib/systemd/haproxy.service.in
++++ b/contrib/systemd/haproxy.service.in
+@@ -7,6 +7,7 @@
+ 
+ [Service]
+ ExecStart=@SBINDIR@/haproxy-systemd-wrapper -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid
++ExecReload=@SBINDIR@/haproxy -c -f /etc/haproxy/haproxy.cfg
+ ExecReload=/bin/kill -USR2 $MAINPID
+ Restart=always
+ 

@@ -1,0 +1,16 @@
+Subject: start after the syslog service using systemd
+Author: Apollon Oikonomopoulos <apoikos@gmail.com>
+
+Forwarded: no
+Last-Update: 2013-10-15
+--- a/contrib/systemd/haproxy.service.in
++++ b/contrib/systemd/haproxy.service.in
+@@ -1,6 +1,7 @@
+ [Unit]
+ Description=HAProxy Load Balancer
+-After=network.target
++After=network.target syslog.service
++Wants=syslog.service
+ 
+ [Service]
+ ExecStart=@SBINDIR@/haproxy-systemd-wrapper -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid

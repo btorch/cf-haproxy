@@ -1,0 +1,23 @@
+Author: Apollon Oikonomopoulos <apoikos@debian.org>
+Description: Use the variables from /etc/default/haproxy
+ This will allow seamless upgrades from the sysvinit system while respecting
+ any changes the users may have made. It will also make local configuration
+ easier than overriding the systemd unit file.
+
+Last-Update: 2014-06-20
+Forwarded: not-needed
+--- a/contrib/systemd/haproxy.service.in
++++ b/contrib/systemd/haproxy.service.in
+@@ -6,8 +6,10 @@
+ Wants=syslog.service
+ 
+ [Service]
+-ExecStart=@SBINDIR@/haproxy-systemd-wrapper -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid
+-ExecReload=@SBINDIR@/haproxy -c -f /etc/haproxy/haproxy.cfg
++Environment=CONFIG=/etc/haproxy/haproxy.cfg
++EnvironmentFile=-/etc/default/haproxy
++ExecStart=@SBINDIR@/haproxy-systemd-wrapper -f ${CONFIG} -p /run/haproxy.pid $EXTRAOPTS
++ExecReload=@SBINDIR@/haproxy -c -f ${CONFIG}
+ ExecReload=/bin/kill -USR2 $MAINPID
+ Restart=always
+ 
